@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [menu, setMenu] = useState("1");
+  const [menu, setMenu] = useState("shop");
 
   return (
     <div className="navbar">
@@ -15,37 +16,45 @@ const Navbar = () => {
       <ul className="nav-menu">
         <li
           onClick={() => {
-            setMenu("1");
+            setMenu("shop");
           }}
         >
-          Shop
-          {menu === "1" ? <hr /> : <></>}
+          <Link to="/" className="links">Shop</Link>
+          {menu === "shop" ? <hr /> : <></>}
         </li>
         <li
           onClick={() => {
-            setMenu("2");
+            setMenu("fiction");
           }}
         >
-          Fiction{menu === "2" ? <hr /> : <></>}
+          <Link to="/fiction" className="links">Fiction</Link>
+
+          {menu === "fiction" ? <hr /> : <></>}
         </li>
         <li
           onClick={() => {
-            setMenu("3");
+            setMenu("non-fiction");
           }}
         >
-          Non-fiction{menu === "3" ? <hr /> : <></>}
+          <Link to="/non-fiction" className="links">Non-Fiction</Link>
+          {menu === "non-fiction" ? <hr /> : <></>}
         </li>
         <li
           onClick={() => {
-            setMenu("4");
+            setMenu("children");
           }}
         >
-          Children{menu === "4" ? <hr /> : <></>}
+          <Link to="/children" className="links">Children</Link>
+          {menu === "children" ? <hr /> : <></>}
         </li>
       </ul>
       <div className="nav-login-cart">
-        <button>Login</button>
-        <ShoppingCartOutlinedIcon fontSize="large" />
+        <Link to="/login" className="links">
+          <button>Login</button>
+        </Link>
+        <Link to="/cart" className="links">
+          <ShoppingCartOutlinedIcon fontSize="large" />
+        </Link>
         <div className="nav-cart-count">0</div>
       </div>
     </div>

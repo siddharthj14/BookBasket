@@ -4,3 +4,13 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
+
+.links{
+    text-decoration: none;
+  color: #626262;
+
+}
+
+.links:hover {
+    color: black;
+  }

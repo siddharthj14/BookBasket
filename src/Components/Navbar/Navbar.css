@@ -39,10 +39,6 @@
   cursor: pointer;
 }
 
-.nav-menu li:hover {
-  color: black;
-}
-
 .nav-menu hr {
   border: none;
   width: 80%;
@@ -71,8 +67,9 @@
 }
 
 .nav-login-cart button:hover {
-  color: #363636;
-  border: 1px solid #5a5a5a;
+  color: black;
+  border: 1px solid black;
+  transform: scale(1.03);
 }
 
 .nav-login-cart button:active {
@@ -86,7 +83,7 @@
   justify-content: center;
   align-items: center;
   margin-top: -35px;
-  margin-left: -55px;
+  margin-left: -45px;
   border-radius: 50%;
   font-size: 14px;
   background-color: red;
