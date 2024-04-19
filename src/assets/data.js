@@ -1,4 +1,4 @@
-import p1 from "./p1.jpeg";
+import p1 from "./p1.png";
 
 let data_product = [
   {
