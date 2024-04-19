@@ -36,21 +36,6 @@
     width: 105px;
 }
 
-.hero-latest-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    width: 310px;
-    height: 70px;
-    border-radius: 75px;
-    margin-top: 30px;
-    background-color: #ff4141;
-    color: white;
-    font-size: 22px;
-    font-weight: 500;
-}
-
 .hero-right{
     flex: 1;
     display: flex;

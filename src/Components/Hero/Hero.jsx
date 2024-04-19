@@ -14,7 +14,7 @@ const Hero = () => {
           <p>Explore our latest book collections</p>
           <p>for all ages and interests</p>
         </div>
-        <div className="hero-latest-btn">
+        <div className="btn">
           <div>Browse Now</div>
           <EastIcon/>
         </div>
