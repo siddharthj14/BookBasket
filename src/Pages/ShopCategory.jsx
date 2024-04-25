@@ -5,7 +5,6 @@ import Item from "../Components/Item/Item";
 import { ShopContext } from "../Context/ShopContext";
 
 const ShopCategory = (props) => {
-  console.log(useContext(ShopContext));
   const { products } = useContext(ShopContext);
   if (!products) {
     return <div>Loading...</div>;
