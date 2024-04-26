@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProductDisplay.css";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { ShopContext } from "../../Context/ShopContext";
 const ProductDisplay = (props) => {
   const { product } = props;
-  
+  const { addToCart } = useContext(ShopContext);
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
@@ -21,7 +22,7 @@ const ProductDisplay = (props) => {
       <div className="productdisplay-right">
         <h1>{product.name}</h1>
         <div className="productdisplay-right-stars">
-          <StarIcon  />
+          <StarIcon />
           <StarIcon />
           <StarIcon />
           <StarIcon />
@@ -41,7 +42,13 @@ const ProductDisplay = (props) => {
           reprehenderit neque maxime velit pariatur dolorum reiciendis rem
           veritatis aliquam culpa autem. Dolore omnis suscipit minima?
         </div>
-        <button>ADD TO CART</button>
+        <button
+          onClick={() => {
+            addToCart(product.id);
+          }}
+        >
+          ADD TO CART
+        </button>
         <p className="prodctdisplay-right-category">
           <span>Category : </span>Lorem ipsum dolor sit amet.
         </p>
