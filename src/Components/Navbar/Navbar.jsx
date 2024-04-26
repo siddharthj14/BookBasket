@@ -7,15 +7,7 @@ import { ShopContext } from "../../Context/ShopContext";
 
 const Navbar = () => {
   const [menu, setMenu] = useState("shop");
-  const { products, cartItems } = useContext(ShopContext);
-  const cartCount = () => {
-    let count = 0;
-    for (let index = 0; index < products.length; index++) {
-      if (cartItems[index] > 0) count += cartItems[index];
-    }
-    return count;
-  };
-
+  const { getTotalCart } = useContext(ShopContext);
   return (
     <div className="navbar">
       <div className="nav-logo">
@@ -72,7 +64,7 @@ const Navbar = () => {
         <Link to="/cart" className="links">
           <ShoppingCartOutlinedIcon fontSize="large" />
         </Link>
-        <div className="nav-cart-count">{cartCount()}</div>
+        <div className="nav-cart-count">{getTotalCart()}</div>
       </div>
     </div>
   );
