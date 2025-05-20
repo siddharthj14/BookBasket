@@ -17,7 +17,7 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.get("/", (req, res) => {
-  res.send("Express App is Running on Port " + port);
+  res.send("Express App is Running o n Port " + port);
 });
 
 const storage = multer.diskStorage({
@@ -78,23 +78,49 @@ const Product = mongoose.model("Product", {
 });
 
 app.post("/add-product", async (req, res) => {
+  let products = await Product.find({});
+  let id;
+  if (products.length > 0) {
+    let last_product = products[products.length - 1];
+    id = last_product.id + 1;
+  } else {
+    id = 1;
+  }
   const product = new Product({
-    id: req.body.id,
+    id: id,
     name: req.body.name,
     image: req.body.image,
     category: req.body.category,
     new_price: req.body.new_price,
     old_price: req.body.old_price,
   });
-  console.log(product);
   await product.save();
-  console.log("Product saved successfully");
+  console.log("Product added successfully");
   res.json({
     success: true,
     message: "Product added successfully",
     name: req.body.name,
   });
 });
+
+app.post("/remove-product", async (req, res) => {
+  await Product.findOneAndDelete({ id: req.body.id });
+  console.log("Product removed successfully");
+  res.json({
+    success: true,
+    name: req.body.name,
+    message: "Product removed successfully",
+  });
+});
+
+app.get("/get-products", async (req, res) => {
+  let products = await Product.find({});
+  console.log("Products fetched successfully");
+  res.json({
+    success: true,
+    products: products,
+  });
+})
 
 app.listen(port, (error) => {
   if (error) {
