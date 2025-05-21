@@ -77,7 +77,7 @@ const Product = mongoose.model("Product", {
   },
 });
 
-app.post("/add-product", async (req, res) => {
+app.post("/addproduct", async (req, res) => {
   let products = await Product.find({});
   let id;
   if (products.length > 0) {
@@ -103,7 +103,7 @@ app.post("/add-product", async (req, res) => {
   });
 });
 
-app.post("/remove-product", async (req, res) => {
+app.post("/removeproduct", async (req, res) => {
   await Product.findOneAndDelete({ id: req.body.id });
   console.log("Product removed successfully");
   res.json({
@@ -113,7 +113,7 @@ app.post("/remove-product", async (req, res) => {
   });
 });
 
-app.get("/get-products", async (req, res) => {
+app.get("/getproducts", async (req, res) => {
   let products = await Product.find({});
   console.log("Products fetched successfully");
   res.json({
