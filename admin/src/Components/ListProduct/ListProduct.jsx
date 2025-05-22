@@ -16,6 +16,25 @@ const ListProduct = () => {
     fetchProducts();
   }, []);
 
+  const handleRemoveProduct = async (id) => {
+    await fetch("http://localhost:4000/removeproduct", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setAllProducts(allproducts.filter((product) => product.id !== id));
+        }
+      });
+  };
+
   return (
     <div className="list-product">
       <h1>All Products List</h1>
@@ -31,25 +50,29 @@ const ListProduct = () => {
         <hr />
         {allproducts.map((product, index) => {
           return (
-            <div
-              key={index}
-              className="listproduct-format-main listproduct-format"
-            >
-              <img
-                src={product.image}
-                alt=""
-                className="listproduct-product-icon"
-              />
-              <p>{product.name}</p>
-              <p>${product.old_price}</p>
-              <p>${product.new_price}</p>
-              <p>{product.category}</p>
-              <img
-                src={cross_icon}
-                alt=""
-                className="listproduct-remove-icon"
-              />
-            </div>
+            <>
+              <div
+                key={index}
+                className="listproduct-format-main listproduct-format"
+              >
+                <img
+                  src={product.image}
+                  alt=""
+                  className="listproduct-product-icon"
+                />
+                <p>{product.name}</p>
+                <p>${product.old_price}</p>
+                <p>${product.new_price}</p>
+                <p>{product.category}</p>
+                <img
+                  onClick={() => handleRemoveProduct(product.id)}
+                  src={cross_icon}
+                  alt=""
+                  className="listproduct-remove-icon"
+                />
+              </div>
+              <hr />
+            </>
           );
         })}
       </div>
