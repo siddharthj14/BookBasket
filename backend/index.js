@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
+const { type } = require("os");
 require("dotenv").config();
 
 app.use(express.json());
@@ -120,7 +121,91 @@ app.get("/getproducts", async (req, res) => {
     success: true,
     products: products,
   });
-})
+});
+
+const Users = mongoose.model("Users", {
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+    unique: true,
+  },
+  password: {
+    type: String,
+  },
+  cartData: {
+    type: Object,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+app.post("/signup", async (req, res) => {
+  let check = await Users.findOne({ email: req.body.email });
+  if (check) {
+    return res.status(400).json({
+      success: false,
+      message: "User already exists",
+    });
+  }
+  let cart = {};
+  for (let i = 0; i < 300; i++) {
+    cart[i] = 0;
+  }
+
+  const user = new Users({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    cartData: cart,
+  });
+  await user.save();
+
+  const data = {
+    user: {
+      id: user.id,
+    },
+  };
+
+  const token = jwt.sign(data, process.env.JWT_SECRET);
+  res.json({
+    success: true,
+    message: "User signed up successfully",
+    name: req.body.name,
+    token: token,
+  });
+});
+
+app.post("/login", async (req, res) => {
+  let user = await Users.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(400).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+  if (user.password !== req.body.password) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid password",
+    });
+  }
+  const data = {
+    user: {
+      id: user.id,
+    },
+  };
+  const token = jwt.sign(data, process.env.JWT_SECRET);
+  res.json({
+    success: true,
+    message: "User logged in successfully",
+    name: user.name,
+    token: token,
+  });
+});
 
 app.listen(port, (error) => {
   if (error) {
