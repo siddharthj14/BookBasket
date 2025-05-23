@@ -207,6 +207,16 @@ app.post("/login", async (req, res) => {
   });
 });
 
+app.get("/newcollections", async (req, res) => {
+  let products = await Product.find({});
+  let newCollections = products.slice(1).slice(-8);
+  console.log("New collections fetched successfully");
+  res.json({
+    success: true,
+    products: products,
+  });
+});
+
 app.listen(port, (error) => {
   if (error) {
     console.log("Error in starting the server" + error);

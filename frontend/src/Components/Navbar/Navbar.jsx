@@ -12,10 +12,10 @@ const Navbar = () => {
   const { getTotalCart } = useContext(ShopContext);
   const menuRef = useRef();
 
-   const dropdown_toggle = (e) => {
-    menuRef.current.classList.toggle('nav-menu-visible');
-    e.targte.classList.toggle('open');
-   }
+  const dropdown_toggle = (e) => {
+    menuRef.current.classList.toggle("nav-menu-visible");
+    e.targte.classList.toggle("open");
+  };
 
   return (
     <div className="navbar">
@@ -23,7 +23,12 @@ const Navbar = () => {
         <img src={logo} alt="" />
         <p>BookBasket</p>
       </div>
-      <img className="nav-dropdown" onClick={dropdown_toggle} src={nav_dropdown} alt="" />
+      <img
+        className="nav-dropdown"
+        onClick={dropdown_toggle}
+        src={nav_dropdown}
+        alt=""
+      />
       <ul ref={menuRef} className="nav-menu">
         <li
           onClick={() => {
@@ -68,9 +73,21 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="nav-login-cart">
-        <Link to="/login" className="links">
-          <button>Login</button>
-        </Link>
+        {localStorage.getItem("auth-token") ? (
+          <button
+            onClick={() => {
+              localStorage.removeItem("auth-token");
+              window.location.replace("/");
+            }}
+          >
+            Logout
+          </button>
+        ) : (
+          <Link to="/login" className="links">
+            <button>Login</button>
+          </Link>
+        )}
+
         <Link to="/cart" className="links">
           <ShoppingCartOutlinedIcon fontSize="large" />
         </Link>
