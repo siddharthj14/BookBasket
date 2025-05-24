@@ -16,7 +16,7 @@ const NewCollections = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          setNewCollection(data.products);
+          setNewCollection(data.newCollections);
         });
     }, []);
 

@@ -213,7 +213,17 @@ app.get("/newcollections", async (req, res) => {
   console.log("New collections fetched successfully");
   res.json({
     success: true,
-    products: products,
+    newCollections: newCollections,
+  });
+});
+
+app.get("/bestsellers", async (req, res) => {
+  let products = await Product.find({});
+  let bestsellers = products.slice(0, 4);
+  console.log("Best sellers fetched successfully");
+  res.json({
+    success: true,
+    bestsellers: bestsellers,
   });
 });
 
