@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./NewCollections.css";
 import Item from "../Item/Item";
 
 const NewCollections = () => {
-
-  const [newCollection,setNewCollection] = useState([]);
+  const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
-      fetch("http://localhost:4000/newcollections", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setNewCollection(data.newCollections);
-        });
-    }, []);
-
-
+    fetch("http://localhost:4000/newcollections", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setNewCollection(data.newCollections);
+      });
+  }, []);
 
   return (
     <div className="new-collections">

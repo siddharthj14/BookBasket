@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "./CSS/ShopCategory.css";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Item from "../Components/Item/Item";
@@ -37,9 +37,7 @@ const ShopCategory = (props) => {
           }
         })}
       </div>
-      <div className="shopcategory-loadmore">
-        Explore More
-      </div>
+      <div className="shopcategory-loadmore">Explore More</div>
     </div>
   );
 };

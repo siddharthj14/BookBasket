@@ -1,54 +1,131 @@
 import { createContext, useEffect, useState } from "react";
-import products from "../assets/products";
 
 export const ShopContext = createContext(null);
 
-const getDefaultCart = () => {
-  let cart = {};
-  for (let index = 0; index < 301; index++) {
-    cart[index] = 0;
-  }
+const getDefaultCart = (products) => {
+  const cart = {};
+  products.forEach((p) => {
+    cart[p.id] = 0;
+  });
   return cart;
 };
+
 const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
-  const [cartItems, setCartItems] = useState(getDefaultCart());
+  const [cartItems, setCartItems] = useState({});
 
-  useEffect(() => {
-    fetch("http://localhost:4000/getproducts", {
-      method: "GET",
+ useEffect(() => {
+  // Fetch products first
+  fetch("http://localhost:4000/getproducts", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      setProducts(data.products);
+      setCartItems(getDefaultCart(data.products)); // initialize cart with 0s
+    })
+    .catch((error) => {
+      console.error("Error fetching products:", error);
+    });
+}, []);
+
+
+useEffect(() => {
+  if (products.length > 0 && localStorage.getItem("auth-token")) {
+    fetch("http://localhost:4000/getcart", {
+      method: "POST",
       headers: {
         Accept: "application/json",
+        "auth-token": `${localStorage.getItem("auth-token")}`,
         "Content-Type": "application/json",
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        setProducts(data.products);
+        // Ensure only product IDs that exist are updated
+        setCartItems((prevCart) => {
+          const updatedCart = { ...prevCart };
+          Object.keys(data).forEach((id) => {
+            if (updatedCart.hasOwnProperty(id)) {
+              updatedCart[id] = data[id];
+            }
+          });
+          return updatedCart;
+        });
+
+        console.log("Cart data fetched:", data);
+      })
+      .catch((error) => {
+        console.error("Error fetching cart data:", error);
       });
-  }, []);
+  }
+}, [products]); // Only run this after products are loaded
+
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/addtocart", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error adding to cart:", error);
+        });
+    }
   };
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/removefromcart", {
+        method: "POST",
+        headers: {
+          Accept: "application/form-data",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error removing from cart:", error);
+        });
+    }
   };
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
-    for (let index = 0; index < products.length; index++) {
-      if (cartItems[index] > 0) {
-        totalAmount += products[index].new_price * cartItems[index];
+    products.forEach((product) => {
+      if (cartItems[product.id] > 0) {
+        totalAmount += product.new_price * cartItems[product.id];
       }
-    }
+    });
     return totalAmount;
   };
+
   const getTotalCart = () => {
     let count = 0;
-    for (let index = 0; index < products.length; index++) {
-      if (cartItems[index] > 0) count += cartItems[index];
-    }
+    products.forEach((product) => {
+      if (cartItems[product.id] > 0) {
+        count += cartItems[product.id];
+      }
+    });
     return count;
   };
 

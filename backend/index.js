@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
-const { type } = require("os");
 require("dotenv").config();
 
 app.use(express.json());
@@ -18,7 +17,7 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.get("/", (req, res) => {
-  res.send("Express App is Running o n Port " + port);
+  res.send("Express App is Running on Port " + port);
 });
 
 const storage = multer.diskStorage({
@@ -144,39 +143,49 @@ const Users = mongoose.model("Users", {
 });
 
 app.post("/signup", async (req, res) => {
-  let check = await Users.findOne({ email: req.body.email });
-  if (check) {
-    return res.status(400).json({
+  try {
+    let check = await Users.findOne({ email: req.body.email });
+    if (check) {
+      return res.status(400).json({
+        success: false,
+        message: "User already exists",
+      });
+    }
+
+    const allProducts = await Product.find({}, "id");
+    let cart = {};
+    allProducts.forEach((product) => {
+      cart[product.id] = 0;
+    });
+
+    const user = new Users({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      cartData: cart,
+    });
+    await user.save();
+
+    const data = {
+      user: {
+        id: user.id,
+      },
+    };
+
+    const token = jwt.sign(data, process.env.JWT_SECRET);
+    res.json({
+      success: true,
+      message: "User signed up successfully",
+      name: req.body.name,
+      token: token,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
       success: false,
-      message: "User already exists",
+      message: "Internal Server Error",
     });
   }
-  let cart = {};
-  for (let i = 0; i < 300; i++) {
-    cart[i] = 0;
-  }
-
-  const user = new Users({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    cartData: cart,
-  });
-  await user.save();
-
-  const data = {
-    user: {
-      id: user.id,
-    },
-  };
-
-  const token = jwt.sign(data, process.env.JWT_SECRET);
-  res.json({
-    success: true,
-    message: "User signed up successfully",
-    name: req.body.name,
-    token: token,
-  });
 });
 
 app.post("/login", async (req, res) => {
@@ -225,6 +234,73 @@ app.get("/bestsellers", async (req, res) => {
     success: true,
     bestsellers: bestsellers,
   });
+});
+
+const fetchUser = async (req, res, next) => {
+  const token = req.header("auth-token");
+  if (!token) {
+    return res
+      .status(401)
+      .json({ error: "Please authenticate using a valid token" });
+  }
+  try {
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = data.user;
+    next();
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ error: "Please authenticate using a valid token" });
+  }
+};
+
+app.post("/addtocart", fetchUser, async (req, res) => {
+  console.log("added", req.body.itemId);
+  let userData = await Users.findOne({ _id: req.user.id });
+  if (!userData) {
+    return res.status(400).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+  userData.cartData[req.body.itemId]++;
+  await Users.findOneAndUpdate(
+    { _id: req.user.id },
+    { cartData: userData.cartData }
+  );
+  res.json({ message: "Item added to cart" });
+});
+
+app.post("/removefromcart", fetchUser, async (req, res) => {
+  console.log("removed", req.body.itemId);
+
+  let userData = await Users.findOne({ _id: req.user.id });
+  if (!userData) {
+    return res.status(400).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+  if (userData.cartData[req.body.itemId] > 0)
+    userData.cartData[req.body.itemId]--;
+  await Users.findOneAndUpdate(
+    { _id: req.user.id },
+    { cartData: userData.cartData }
+  );
+  res.json({ message: "Item removed from cart" });
+});
+
+app.post("/getcart", fetchUser, async (req, res) => {
+  console.log("Get Cart");
+  let userData = await Users.findOne({ _id: req.user.id });
+  if (!userData) {
+    return res.status(400).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+  console.log("User Data", userData);
+  res.json(userData.cartData);
 });
 
 app.listen(port, (error) => {

@@ -1,15 +1,30 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import "./BestSeller.css";
-import data_product from "../../assets/data";
 import Item from "../Item/Item";
 
 const BestSeller = () => {
+  const [bestSellerProducts, setBestSellerProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/bestsellers", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setBestSellerProducts(data.bestsellers);
+      });
+  }, []);
+
   return (
     <div className="bestseller">
       <h1>Best Sellers</h1>
       <hr />
       <div className="bestseller-item">
-        {data_product.map((item, i) => {
+        {bestSellerProducts.map((item, i) => {
           return (
             <Item
               key={i}
