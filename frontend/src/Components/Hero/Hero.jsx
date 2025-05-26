@@ -1,4 +1,3 @@
-import React from "react";
 import "./Hero.css";
 import EastIcon from '@mui/icons-material/East';
 import books from "../../assets/books.png"
