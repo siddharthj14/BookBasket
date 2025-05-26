@@ -1,4 +1,3 @@
-import React from "react";
 import "./Footer.css";
 import logo from "../../assets/logo.png";
 import InstagramIcon from "@mui/icons-material/Instagram";
