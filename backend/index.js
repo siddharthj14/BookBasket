@@ -217,23 +217,64 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/newcollections", async (req, res) => {
-  let products = await Product.find({});
-  let newCollections = products.slice(1).slice(-8);
-  console.log("New collections fetched successfully");
-  res.json({
-    success: true,
-    newCollections: newCollections,
-  });
+  try {
+    const fictionBooks = await Product.find({ category: "fiction" })
+      .sort({ _id: -1 })
+      .limit(3);
+
+    const nonFictionBooks = await Product.find({ category: "non_fiction" })
+      .sort({ _id: -1 })
+      .limit(3);
+    const childrenBooks = await Product.find({ category: "children" })
+      .sort({ _id: -1 })
+      .limit(2);
+
+    const newCollections = [
+      ...fictionBooks,
+      ...nonFictionBooks,
+      ...childrenBooks,
+    ];
+
+    console.log("New collections fetched successfully");
+    res.json({
+      success: true,
+      newCollections: newCollections,
+    });
+  } catch (error) {
+    console.error("Error fetching new collections:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch new collections",
+    });
+  }
 });
 
 app.get("/bestsellers", async (req, res) => {
-  let products = await Product.find({});
-  let bestsellers = products.slice(0, 4);
-  console.log("Best sellers fetched successfully");
-  res.json({
-    success: true,
-    bestsellers: bestsellers,
-  });
+  try {
+    const fictionBooks = await Product.find({ category: "fiction" })
+      .sort({ _id: 1 })
+      .limit(2);
+
+    const nonFictionBooks = await Product.find({ category: "non_fiction" })
+      .sort({ _id: 1 })
+      .limit(1);
+    const childrenBooks = await Product.find({ category: "children" })
+      .sort({ _id: 1 })
+      .limit(1);
+    const bestsellers = [...fictionBooks, ...nonFictionBooks, ...childrenBooks];
+
+    console.log("Bestsellers fetched successfully");
+    res.json({
+      success: true,
+      bestsellers: bestsellers,
+    });
+  } catch (error) {
+    console.error("Error fetching bestsellers:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch bestsellers",
+    });
+  }
 });
 
 const fetchUser = async (req, res, next) => {
