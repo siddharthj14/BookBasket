@@ -6,6 +6,7 @@
   margin: 20px 30px;
   border-radius: 6px;
   background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .addproduct-itemfield {
@@ -29,6 +30,7 @@
 
 .addproduct-itemfield input:focus {
   border: 1px solid #5f5f5f;
+  box-shadow: 0 0 0 3px rgba(77, 78, 80, 0.15);
 }
 
 .addproduct-price {
@@ -37,13 +39,25 @@
 }
 
 .add-product-category {
-  padding: 10px;
-  width: 100px;
-  height: 50px;
-  font-size: 14px;
-  color: #7b7b7b;
-  border: 1px solid #7b7b7b8d;
-  border-radius: 4px;
+  padding: 10px 16px;
+  width: 150px;
+  height: 48px;
+  font-size: 15px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.add-product-category:hover {
+  border-color: #999;
+  color: #000;
+}
+
+.add-product-category:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(71, 71, 72, 0.2);
 }
 
 .addproduct-img {
@@ -54,8 +68,11 @@
   margin: 10px 0;
 }
 
+.addproduct-img:hover {
+  transform: scale(1.02);
+}
+
 .addproduct-btn {
-  margin-top: 20px;
   width: 160px;
   height: 50px;
   border-radius: 6px;
@@ -69,6 +86,7 @@
 
 .addproduct-btn:hover {
   background: #4e6bff;
+  transform: scale(1.02);
 }
 
 @media (max-width: 800px) {
