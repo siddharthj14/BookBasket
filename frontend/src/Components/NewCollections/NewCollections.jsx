@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./NewCollections.css";
 import Item from "../Item/Item";
 
-const NewCollections = () => {
+const NewCollections = ({ refProp }) => {
   const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const NewCollections = () => {
   }, []);
 
   return (
-    <div className="new-collections">
+    <div ref={refProp} className="new-collections">
       <h1>NEW COLLECTIONS</h1>
       <hr />
       <div className="collections">

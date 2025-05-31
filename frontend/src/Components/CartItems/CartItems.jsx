@@ -1,9 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./CartItems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 const CartItems = () => {
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [promoMessage, setPromoMessage] = useState("");
+
+  const promoCodes = {
+    save10: 0.1,
+    save20: 0.2,
+    welcome5: 0.05,
+  };
+
+  const applyPromoCode = () => {
+    const code = promoCode.trim().toLowerCase();
+    if (promoCodes[code]) {
+      setDiscount(promoCodes[code]);
+      setPromoMessage(
+        `Promo code applied! ${promoCodes[code] * 100}% discount`
+      );
+    } else {
+      setDiscount(0);
+      setPromoMessage("Invalid promo code");
+    }
+  };
+
   const { getTotalCartAmount, products, cartItems, removeFromCart } =
     useContext(ShopContext);
   return (
@@ -32,7 +55,6 @@ const CartItems = () => {
                 <div
                   className="removebtn"
                   onClick={() => {
-                    console.log("clicked");
                     removeFromCart(e.id);
                   }}
                 >
@@ -45,14 +67,13 @@ const CartItems = () => {
         }
         return null;
       })}
-
       <div className="cartitems-down">
         <div className="cartitems-total">
           <h1>Cart Totals</h1>
           <div>
             <div className="cartitems-total-item">
               <p>Subtotal</p>
-              <p>₹{getTotalCartAmount()}</p>
+              <h3>₹{Math.round(getTotalCartAmount())}</h3>
             </div>
             <hr />
             <div className="cartitems-total-item">
@@ -60,18 +81,47 @@ const CartItems = () => {
               <p>Free</p>
             </div>
             <hr />
+            {discount > 0 && (
+              <>
+                <div className="cartitems-total-item">
+                  <p>Discount</p>
+                  <p>-₹{Math.round(getTotalCartAmount() * discount)}</p>
+                </div>
+                <hr />
+              </>
+            )}
+
             <div className="cartitems-total-item">
               <h3>Total</h3>
-              <h3>₹{getTotalCartAmount()}</h3>
+              <h3>₹{Math.round(getTotalCartAmount() * (1 - discount))}</h3>
             </div>
           </div>
-          <button>PROCEED TO CHECKOUT</button>
+          <button className="btn">Proceed to Checkout</button>
         </div>
         <div className="cartitems-promocode">
           <p>If you have a promo code, Enter it here</p>
           <div className="cartitems-promobox">
-            <input type="text" placeholder="Enter Promo Code" />
-            <button>Apply</button>
+            <input
+              type="text"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              placeholder="Enter Promo Code"
+            />
+            <button onClick={applyPromoCode} disabled={!promoCode.trim()}>
+              Apply
+            </button>
+
+            {promoMessage && (
+              <p
+                className={`promo-message ${
+                  promoMessage.toLowerCase().includes("invalid")
+                    ? "error"
+                    : "success"
+                }`}
+              >
+                {promoMessage}
+              </p>
+            )}
           </div>
         </div>
       </div>

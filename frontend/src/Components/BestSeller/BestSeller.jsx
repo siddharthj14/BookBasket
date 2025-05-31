@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./BestSeller.css";
 import Item from "../Item/Item";
 
-const BestSeller = () => {
+const BestSeller = ({ refProp }) => {
   const [bestSellerProducts, setBestSellerProducts] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const BestSeller = () => {
   }, []);
 
   return (
-    <div className="bestseller">
+    <div ref={refProp} className="bestseller">
       <h1>Best Sellers</h1>
       <hr />
       <div className="bestseller-item">

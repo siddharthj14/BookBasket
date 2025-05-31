@@ -1,8 +1,11 @@
 import "./Hero.css";
 import EastIcon from '@mui/icons-material/East';
-import books from "../../assets/books.png"
+import books from "../../assets/books.jpg"
 
-const Hero = () => {
+const Hero = ({ scrollToRef }) => {
+  const handleScroll = () => {
+    scrollToRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className="hero">
       <div className="hero-left">
@@ -13,7 +16,7 @@ const Hero = () => {
           <p>Explore our latest book collections</p>
           <p>for all ages and interests</p>
         </div>
-        <div className="btn">
+        <div className="btn" onClick={handleScroll}>
           <div>Browse Now</div>
           <EastIcon/>
         </div>

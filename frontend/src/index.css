@@ -19,9 +19,9 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
-  width: 310px;
+  width: 280px;
   height: 70px;
-  border-radius: 75px;
+  border-radius: 50px;
   margin-top: 30px;
   background-color: #ff4141;
   color: white;
@@ -30,11 +30,13 @@
   outline: none;
   border: none;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #ff0000;
   transition: 0.3s;
+  background: #d32323;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 1280px) {

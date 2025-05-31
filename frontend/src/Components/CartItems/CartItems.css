@@ -1,5 +1,5 @@
 .cartitems {
-  margin: 100px 170px;
+  margin: 50px 170px;
 }
 
 .cartitems hr {
@@ -31,6 +31,12 @@
 .removebtn {
   margin: 0px 40px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.removebtn:hover {
+  color: red;
+  transform: scale(1.1);
 }
 
 .cartitems-quantity {
@@ -42,7 +48,7 @@
 
 .cartitems-down {
   display: flex;
-  margin: 0px 100px;
+  margin: 50px 100px;
 }
 
 .cartitems-total {
@@ -107,6 +113,20 @@
   cursor: pointer;
 }
 
+.promo-message {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.promo-message.success {
+  color: green;
+}
+
+.promo-message.error {
+  color: red;
+}
+
 @media (max-width: 1280px) {
   .cartitems {
     margin: 60px 50px;
@@ -156,8 +176,7 @@
     grid-template-columns: 0.5fr 3fr 0.5fr;
     gap: 10px;
   }
-  .cartitems-format{
+  .cartitems-format {
     display: grid;
-
   }
 }

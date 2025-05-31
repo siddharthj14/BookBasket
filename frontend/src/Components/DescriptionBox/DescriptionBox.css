@@ -4,6 +4,8 @@
 
 .descriptionbox-navigator {
   display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .descriptionbox-nav-box {
@@ -15,11 +17,25 @@
   width: 171px;
   height: 70px;
   border: 1px solid #d0d0d0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.descriptionbox-nav-box:hover {
+  color: #fff;
+  background-color: #333;
+  border-color: #333;
+}
+
+.descriptionbox-nav-box.active {
+  color: #fff;
+  background-color: #333;
 }
 
 .descriptionbox-nav-box.fade {
-  background-color: #fbfbfb;
-  color: #555;
+  color: #666;
+  background-color: transparent;
 }
 
 .descriptionbox-description {
@@ -41,7 +57,7 @@
   .descriptionbox {
     margin: 60px 20px;
   }
-  .descriptionbox-description{
+  .descriptionbox-description {
     font-size: 14px;
   }
 }

@@ -19,10 +19,17 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <div className="nav-logo">
-        <img src={logo} alt="" />
-        <p>BookBasket</p>
-      </div>
+      <Link
+        to="/"
+        className="links"
+        onClick={() => {
+          setMenu("shop");
+        }}
+      >
+        <div className="nav-logo">
+          <img src={logo} alt="" />
+        </div>
+      </Link>
       <img
         className="nav-dropdown"
         onClick={dropdown_toggle}

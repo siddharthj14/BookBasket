@@ -26,9 +26,6 @@
 }
 
 @media (max-width: 1280px) {
-  .relatedproducts {
-    height: 70vh;
-  }
   .relatedproducts h1 {
     font-size: 40px;
   }
@@ -43,9 +40,6 @@
 }
 
 @media (max-width: 1024px) {
-  .relatedproducts {
-    height: 60vh;
-  }
   .relatedproducts h1 {
     font-size: 30px;
   }
@@ -61,7 +55,6 @@
 
 @media (max-width: 800px) {
   .relatedproducts {
-    height: 50vh;
     gap: 6px;
   }
   .relatedproducts h1 {
@@ -76,9 +69,6 @@
 }
 
 @media (max-width: 500px) {
-  .relatedproducts {
-    height: 90vh;
-  }
   .relatedproducts-item {
     display: grid;
     grid-template-columns: 1fr 1fr;

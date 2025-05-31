@@ -3,6 +3,9 @@ import { useState } from "react";
 
 const LoginSignup = () => {
   const [state, setState] = useState("Login");
+  const [agreed, setAgreed] = useState(false);
+  const [agreeWarning, setAgreeWarning] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -54,6 +57,19 @@ const LoginSignup = () => {
         }
       });
   };
+  const handleContinue = () => {
+    if (!agreed) {
+      setAgreeWarning("Please agree to the terms to continue.");
+      return;
+    }
+    setAgreeWarning("");
+
+    if (state === "Login") {
+      handleLogin();
+    } else {
+      handleSignUp();
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -89,16 +105,17 @@ const LoginSignup = () => {
           />
         </div>
         <div className="loginsignup-agree">
-          <input type="checkbox" name="" id="" />
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={() => setAgreed(!agreed) || setAgreeWarning("")}
+          />
           <p>By continuing, I agree to the terms of use & privacy policy.</p>
         </div>
-        <button
-          onClick={() => {
-            state === "Login" ? handleLogin() : handleSignUp();
-          }}
-        >
-          Continue
-        </button>
+        {agreeWarning && <p className="agree-warning">{agreeWarning}</p>}
+
+        <button onClick={handleContinue}>Continue</button>
+
         {state === "Sign Up" ? (
           <p className="loginsignup-login">
             Already have an account?

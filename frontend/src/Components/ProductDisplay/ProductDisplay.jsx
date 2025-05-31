@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import "./ProductDisplay.css";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
@@ -6,6 +6,11 @@ import { ShopContext } from "../../Context/ShopContext";
 const ProductDisplay = (props) => {
   const { product } = props;
   const { addToCart } = useContext(ShopContext);
+  const { rating, reviews } = useMemo(() => {
+    const randomRating = Math.floor(Math.random() * 3) + 3;
+    const randomReviews = Math.floor(Math.random() * 300) + 1;
+    return { rating: randomRating, reviews: randomReviews };
+  }, []);
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
@@ -22,12 +27,14 @@ const ProductDisplay = (props) => {
       <div className="productdisplay-right">
         <h1>{product.name}</h1>
         <div className="productdisplay-right-stars">
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarBorderIcon />
-          <p>(122)</p>
+          {[...Array(5)].map((_, index) =>
+            index < rating ? (
+              <StarIcon key={index} />
+            ) : (
+              <StarBorderIcon key={index} />
+            )
+          )}
+          <p>({reviews})</p>
         </div>
         <div className="productdisplay-right-prices">
           <div className="productdisplay-right-price-old">
@@ -40,20 +47,33 @@ const ProductDisplay = (props) => {
         <div className="productdisplay-right-description">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima,
           reprehenderit neque maxime velit pariatur dolorum reiciendis rem
-          veritatis aliquam culpa autem. Dolore omnis suscipit minima?
+          veritatis aliquam culpa.
         </div>
-        <button
+        <button className="btn"
           onClick={() => {
             addToCart(product.id);
           }}
         >
-          ADD TO CART
+          Add to Cart
         </button>
-        <p className="prodctdisplay-right-category">
-          <span>Category : </span>Lorem ipsum dolor sit amet.
+        <p className="productdisplay-right-category">
+          <span>Sale: </span>
+          Save{" "}
+          <span>
+          {Math.round(
+            ((product.old_price - product.new_price) / product.old_price) * 100
+          )}
+          %</span>
         </p>
-        <p className="prodctdisplay-right-category">
-          <span>Category : </span>Lorem, ipsum dolor.
+        <p className="productdisplay-right-category">
+          <span>Category: </span>
+          {product.category === "fiction"
+            ? "Fiction"
+            : product.category === "non-fiction"
+            ? "Non-Fiction"
+            : product.category === "children"
+            ? "Children"
+            : "General"}
         </p>
       </div>
     </div>
