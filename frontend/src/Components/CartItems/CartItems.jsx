@@ -7,6 +7,8 @@ const CartItems = () => {
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const [promoMessage, setPromoMessage] = useState("");
+  const { getTotalCartAmount, products, cartItems, removeFromCart } =
+    useContext(ShopContext);
 
   const promoCodes = {
     save10: 0.1,
@@ -27,8 +29,6 @@ const CartItems = () => {
     }
   };
 
-  const { getTotalCartAmount, products, cartItems, removeFromCart } =
-    useContext(ShopContext);
   return (
     <div className="cartitems">
       <div className="cartitems-format-main">
