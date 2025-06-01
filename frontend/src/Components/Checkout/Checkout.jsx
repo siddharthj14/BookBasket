@@ -2,11 +2,14 @@ import React, { useContext, useState } from "react";
 import "./Checkout.css";
 import { ShopContext } from "../../Context/ShopContext";
 import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 
 const Checkout = () => {
   const { getTotalCartAmount, discount, clearCart } = useContext(ShopContext);
   const [currentStep, setCurrentStep] = useState(1);
   const [orderNumber, setOrderNumber] = useState("");
+  const [isProcessingOrder, setIsProcessingOrder] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   const [shippingInfo, setShippingInfo] = useState({
     firstName: "",
@@ -28,6 +31,47 @@ const Checkout = () => {
     paymentMethod: "visa",
   });
 
+  // EmailJS Configuration
+  const EMAIL_SERVICE_ID = "service_49a5pe6";
+  const EMAIL_TEMPLATE_ID = "template_hwjtmrh";
+  const EMAIL_PUBLIC_KEY = "sQ1L7fGWHbk36eiZW";
+
+  const sendConfirmationEmail = async (orderDetails) => {
+    try {
+      const templateParams = {
+        to_name: `${shippingInfo.firstName} ${shippingInfo.lastName}`,
+        email: shippingInfo.email,
+        order_number: orderDetails.orderNumber,
+        subtotal: Math.round(getTotalCartAmount()),
+        discount_amount: Math.round(getTotalCartAmount() * discount),
+        total_amount: Math.round(getTotalCartAmount() * (1 - discount)),
+        shipping_address: `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zipCode}, ${shippingInfo.country}`,
+        phone: shippingInfo.phone,
+        estimated_delivery: formatDate(
+          new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+        ),
+        order_date: formatDate(new Date()),
+        payment_method: paymentInfo.paymentMethod.toUpperCase(),
+        card_last_four: paymentInfo.cardNumber.slice(-4),
+      };
+
+      const result = await emailjs.send(
+        EMAIL_SERVICE_ID,
+        EMAIL_TEMPLATE_ID,
+        templateParams,
+        EMAIL_PUBLIC_KEY
+      );
+
+      console.log("Email sent successfully:", result);
+      setEmailSent(true);
+      return true;
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      // Don't block the order completion if email fails
+      return false;
+    }
+  };
+
   const handleShippingSubmit = () => {
     if (
       !shippingInfo.firstName ||
@@ -42,10 +86,18 @@ const Checkout = () => {
       alert("Please fill in all required fields");
       return;
     }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(shippingInfo.email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
     setCurrentStep(2);
   };
 
-  const handlePaymentSubmit = () => {
+  const handlePaymentSubmit = async () => {
     if (
       !paymentInfo.cardholderName ||
       !paymentInfo.cardNumber ||
@@ -55,9 +107,23 @@ const Checkout = () => {
       alert("Please fill in all payment details");
       return;
     }
-    const newOrderNumber = `ORD-${Date.now()}`;
-    setOrderNumber(newOrderNumber);
-    setCurrentStep(3);
+
+    setIsProcessingOrder(true);
+
+    try {
+      const newOrderNumber = `ORD-${Date.now()}`;
+      setOrderNumber(newOrderNumber);
+
+      // Send confirmation email
+      await sendConfirmationEmail({ orderNumber: newOrderNumber });
+
+      setCurrentStep(3);
+    } catch (error) {
+      console.error("Order processing failed:", error);
+      alert("There was an issue processing your order. Please try again.");
+    } finally {
+      setIsProcessingOrder(false);
+    }
   };
 
   const formatCardNumber = (value) => {
@@ -424,6 +490,7 @@ const Checkout = () => {
                   type="button"
                   onClick={() => setCurrentStep(1)}
                   className="btn btn-secondary btn-half"
+                  disabled={isProcessingOrder}
                 >
                   Back to Shipping
                 </button>
@@ -431,8 +498,9 @@ const Checkout = () => {
                   type="button"
                   onClick={handlePaymentSubmit}
                   className="btn btn-half"
+                  disabled={isProcessingOrder}
                 >
-                  Complete Order
+                  {isProcessingOrder ? "Processing..." : "Complete Order"}
                 </button>
               </div>
             </div>
@@ -455,6 +523,14 @@ const Checkout = () => {
                 Thank you for your purchase. Your order has been confirmed and
                 will be shipped soon.
               </p>
+              {emailSent && (
+                <div className="email-confirmation">
+                  <span className="email-icon">📧</span>
+                  <p className="email-text">
+                    Confirmation email sent to {shippingInfo.email}
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="order-details">
@@ -500,9 +576,7 @@ const Checkout = () => {
               </p>
               <p className="delivery-text">
                 Order confirmation sent to:{" "}
-                <span className="delivery-email">
-                  {shippingInfo.email || "siddharthj1405@gmail.com"}
-                </span>
+                <span className="delivery-email">{shippingInfo.email}</span>
               </p>
               <p className="delivery-text">
                 Track your order with:{" "}
@@ -517,6 +591,7 @@ const Checkout = () => {
                 onClick={() => {
                   clearCart();
                   setCurrentStep(1);
+                  setEmailSent(false);
                 }}
               >
                 Continue Shopping
