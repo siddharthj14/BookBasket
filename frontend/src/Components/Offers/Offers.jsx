@@ -1,6 +1,6 @@
 import React from "react";
 import "./Offers.css";
-import offerBook from "../../Assets/offerBook.jpg";
+import offerBook from "../../assets/offerBook.jpg";
 
 const Offers = ({scrollToRef}) => {
   const handleScroll = () => {
