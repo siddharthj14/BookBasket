@@ -1,4 +1,3 @@
-const port = process.env.PORT;
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -7,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 require("dotenv").config();
+const port = process.env.PORT;
+const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
 app.use(express.json());
 app.use(cors());
@@ -37,7 +38,7 @@ app.use("/images", express.static("upload/images"));
 app.post("/upload", upload.single("product"), (req, res) => {
   res.json({
     success: 1,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    image_url: `${baseUrl}/images/${req.file.filename}`,
   });
 });
 

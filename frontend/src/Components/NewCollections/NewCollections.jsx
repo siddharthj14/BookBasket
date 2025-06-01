@@ -6,7 +6,7 @@ const NewCollections = ({ refProp }) => {
   const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/newcollections", {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/newcollections`, {
       method: "GET",
       headers: {
         Accept: "application/json",

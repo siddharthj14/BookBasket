@@ -5,7 +5,7 @@ const ListProduct = () => {
   const [allproducts, setAllProducts] = useState([]);
 
   const fetchProducts = async () => {
-    await fetch("http://localhost:4000/getproducts")
+    await fetch(`${import.meta.env.VITE_API_BASE_URL}/getproducts`)
       .then((res) => res.json())
       .then((data) => {
         setAllProducts(data.products);
@@ -17,7 +17,7 @@ const ListProduct = () => {
   }, []);
 
   const handleRemoveProduct = async (id) => {
-    await fetch("http://localhost:4000/removeproduct", {
+    await fetch(`${import.meta.env.VITE_API_BASE_URL}/removeproduct`, {
       method: "POST",
       headers: {
         Accept: "application/json",

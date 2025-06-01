@@ -6,7 +6,7 @@ const BestSeller = ({ refProp }) => {
   const [bestSellerProducts, setBestSellerProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/bestsellers", {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/bestsellers`, {
       method: "GET",
       headers: {
         Accept: "application/json",

@@ -17,7 +17,7 @@ const ShopContextProvider = (props) => {
 
   useEffect(() => {
     // Fetch products first
-    fetch("http://localhost:4000/getproducts", {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/getproducts`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -36,7 +36,7 @@ const ShopContextProvider = (props) => {
 
   useEffect(() => {
     if (products.length > 0 && localStorage.getItem("auth-token")) {
-      fetch("http://localhost:4000/getcart", {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/getcart`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -68,7 +68,7 @@ const ShopContextProvider = (props) => {
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     if (localStorage.getItem("auth-token")) {
-      fetch("http://localhost:4000/addtocart", {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/addtocart`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -89,7 +89,7 @@ const ShopContextProvider = (props) => {
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
     if (localStorage.getItem("auth-token")) {
-      fetch("http://localhost:4000/removefromcart", {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/removefromcart`, {
         method: "POST",
         headers: {
           Accept: "application/form-data",
@@ -132,7 +132,7 @@ const ShopContextProvider = (props) => {
     setCartItems(getDefaultCart(products));
     setDiscount(0);
     if (localStorage.getItem("auth-token")) {
-      fetch("http://localhost:4000/clearcart", {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/clearcart`, {
         method: "POST",
         headers: {
           Accept: "application/json",

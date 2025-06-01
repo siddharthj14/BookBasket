@@ -15,7 +15,7 @@ const LoginSignup = () => {
   const handleLogin = async () => {
     console.log("Login", formData);
     let responseData;
-    await fetch("http://localhost:4000/login", {
+    await fetch(`${import.meta.env.VITE_API_BASE_URL}/login`, {
       method: "POST",
       headers: {
         Accept: "application/form-data",
@@ -38,7 +38,7 @@ const LoginSignup = () => {
   const handleSignUp = async () => {
     console.log("SignUp", formData);
     let responseData;
-    await fetch("http://localhost:4000/signup", {
+    await fetch(`${import.meta.env.VITE_API_BASE_URL}/signup"`, {
       method: "POST",
       headers: {
         Accept: "application/form-data",
