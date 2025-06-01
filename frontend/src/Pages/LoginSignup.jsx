@@ -38,7 +38,7 @@ const LoginSignup = () => {
   const handleSignUp = async () => {
     console.log("SignUp", formData);
     let responseData;
-    await fetch(`${import.meta.env.VITE_API_BASE_URL}/signup"`, {
+    await fetch(`${import.meta.env.VITE_API_BASE_URL}/signup`, {
       method: "POST",
       headers: {
         Accept: "application/form-data",
