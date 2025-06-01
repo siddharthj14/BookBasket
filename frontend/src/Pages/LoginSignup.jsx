@@ -108,10 +108,14 @@ const LoginSignup = () => {
           <input
             type="checkbox"
             checked={agreed}
-            onChange={() => setAgreed(!agreed) || setAgreeWarning("")}
+            onChange={() => {
+              setAgreed(!agreed);
+              setAgreeWarning("");
+            }}
           />
           <p>By continuing, I agree to the terms of use & privacy policy.</p>
         </div>
+
         {agreeWarning && <p className="agree-warning">{agreeWarning}</p>}
 
         <button onClick={handleContinue}>Continue</button>

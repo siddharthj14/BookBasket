@@ -13,58 +13,57 @@ const getDefaultCart = (products) => {
 const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState({});
+  const [discount, setDiscount] = useState(0);
 
- useEffect(() => {
-  // Fetch products first
-  fetch("http://localhost:4000/getproducts", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      setProducts(data.products);
-      setCartItems(getDefaultCart(data.products)); // initialize cart with 0s
-    })
-    .catch((error) => {
-      console.error("Error fetching products:", error);
-    });
-}, []);
-
-
-useEffect(() => {
-  if (products.length > 0 && localStorage.getItem("auth-token")) {
-    fetch("http://localhost:4000/getcart", {
-      method: "POST",
+  useEffect(() => {
+    // Fetch products first
+    fetch("http://localhost:4000/getproducts", {
+      method: "GET",
       headers: {
         Accept: "application/json",
-        "auth-token": `${localStorage.getItem("auth-token")}`,
         "Content-Type": "application/json",
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        // Ensure only product IDs that exist are updated
-        setCartItems((prevCart) => {
-          const updatedCart = { ...prevCart };
-          Object.keys(data).forEach((id) => {
-            if (updatedCart.hasOwnProperty(id)) {
-              updatedCart[id] = data[id];
-            }
-          });
-          return updatedCart;
-        });
-
-        console.log("Cart data fetched:", data);
+        setProducts(data.products);
+        setCartItems(getDefaultCart(data.products)); // initialize cart with 0s
       })
       .catch((error) => {
-        console.error("Error fetching cart data:", error);
+        console.error("Error fetching products:", error);
       });
-  }
-}, [products]); // Only run this after products are loaded
+  }, []);
 
+  useEffect(() => {
+    if (products.length > 0 && localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/getcart", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Ensure only product IDs that exist are updated
+          setCartItems((prevCart) => {
+            const updatedCart = { ...prevCart };
+            Object.keys(data).forEach((id) => {
+              if (updatedCart.hasOwnProperty(id)) {
+                updatedCart[id] = data[id];
+              }
+            });
+            return updatedCart;
+          });
+
+          console.log("Cart data fetched:", data);
+        })
+        .catch((error) => {
+          console.error("Error fetching cart data:", error);
+        });
+    }
+  }, [products]); // Only run this after products are loaded
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
@@ -129,6 +128,24 @@ useEffect(() => {
     return count;
   };
 
+  const clearCart = () => {
+    setCartItems(getDefaultCart(products));
+    setDiscount(0);
+    if (localStorage.getItem("auth-token")) {
+      fetch("http://localhost:4000/clearcart", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "auth-token": `${localStorage.getItem("auth-token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => console.log("Cart cleared on backend:", data))
+        .catch((error) => console.error("Error clearing cart:", error));
+    }
+  };
+
   const contextValue = {
     getTotalCart,
     getTotalCartAmount,
@@ -136,6 +153,9 @@ useEffect(() => {
     cartItems,
     addToCart,
     removeFromCart,
+    discount,
+    setDiscount,
+    clearCart,
   };
   return (
     <ShopContext.Provider value={contextValue}>

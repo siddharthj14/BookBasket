@@ -19,8 +19,6 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
-  width: 280px;
-  height: 70px;
   border-radius: 50px;
   margin-top: 30px;
   background-color: #ff4141;
@@ -28,15 +26,33 @@
   font-size: 22px;
   font-weight: 500;
   outline: none;
-  border: none;
+  border: 2px solid transparent; /* Prevent layout shift */
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
+  width: max-content;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
 }
 
 .btn:hover {
-  transition: 0.3s;
-  background: #d32323;
-  transform: translateY(-1px);
+  background-color: white;
+  color: #ff4141;
+  border-color: #ff4141;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #ff4141;
+  border: 2px solid #ff4141;
+}
+
+.btn-secondary:hover {
+  background-color: #ff4141;
+  color: white;
+}
+
+.btn-half {
+  flex: 1;
 }
 
 @media (max-width: 1280px) {

@@ -62,7 +62,7 @@
 .cartitems-total-item {
   display: flex;
   justify-content: space-between;
-  padding: 15px 0px;
+  padding: 8px 0px;
 }
 
 .cartitems-total button {
@@ -125,6 +125,19 @@
 
 .promo-message.error {
   color: red;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.empty-cart-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #e72d2d;
+  margin-top: 40px;
 }
 
 @media (max-width: 1280px) {

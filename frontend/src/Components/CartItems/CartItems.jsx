@@ -2,13 +2,19 @@ import React, { useContext, useState } from "react";
 import "./CartItems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { Link } from "react-router-dom";
 
 const CartItems = () => {
   const [promoCode, setPromoCode] = useState("");
-  const [discount, setDiscount] = useState(0);
   const [promoMessage, setPromoMessage] = useState("");
-  const { getTotalCartAmount, products, cartItems, removeFromCart } =
-    useContext(ShopContext);
+  const {
+    getTotalCartAmount,
+    products,
+    cartItems,
+    removeFromCart,
+    discount,
+    setDiscount,
+  } = useContext(ShopContext);
 
   const promoCodes = {
     save10: 0.1,
@@ -67,6 +73,10 @@ const CartItems = () => {
         }
         return null;
       })}
+      {getTotalCartAmount() === 0 && (
+        <p className="empty-cart-message">Your cart is empty.</p>
+      )}
+
       <div className="cartitems-down">
         <div className="cartitems-total">
           <h1>Cart Totals</h1>
@@ -75,28 +85,36 @@ const CartItems = () => {
               <p>Subtotal</p>
               <h3>₹{Math.round(getTotalCartAmount())}</h3>
             </div>
-            <hr />
             <div className="cartitems-total-item">
               <p>Shipping Fee</p>
               <p>Free</p>
             </div>
-            <hr />
             {discount > 0 && (
-              <>
-                <div className="cartitems-total-item">
-                  <p>Discount</p>
-                  <p>-₹{Math.round(getTotalCartAmount() * discount)}</p>
-                </div>
-                <hr />
-              </>
+              <div className="cartitems-total-item">
+                <p>Discount</p>
+                <p>-₹{Math.round(getTotalCartAmount() * discount)}</p>
+              </div>
             )}
+            <hr />
 
             <div className="cartitems-total-item">
               <h3>Total</h3>
               <h3>₹{Math.round(getTotalCartAmount() * (1 - discount))}</h3>
             </div>
           </div>
-          <button className="btn">Proceed to Checkout</button>
+          <Link
+            to={getTotalCartAmount() > 0 ? "/checkout" : "#"}
+            className={`btn ${
+              getTotalCartAmount() === 0 ? "btn-disabled" : ""
+            }`}
+            onClick={(e) => {
+              if (getTotalCartAmount() === 0) {
+                e.preventDefault();
+              }
+            }}
+          >
+            Proceed to Checkout
+          </Link>
         </div>
         <div className="cartitems-promocode">
           <p>If you have a promo code, Enter it here</p>

@@ -344,6 +344,34 @@ app.post("/getcart", fetchUser, async (req, res) => {
   res.json(userData.cartData);
 });
 
+app.post("/clearcart", fetchUser, async (req, res) => {
+  try {
+    const allProducts = await Product.find({}, "id");
+
+    let clearedCart = {};
+    allProducts.forEach((product) => {
+      clearedCart[product.id] = 0;
+    });
+
+    await Users.findOneAndUpdate(
+      { _id: req.user.id },
+      { cartData: clearedCart }
+    );
+
+    console.log("Cart cleared for user:", req.user.id);
+    res.json({
+      success: true,
+      message: "Cart cleared successfully",
+    });
+  } catch (error) {
+    console.error("Error clearing cart:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+});
+
 app.listen(port, (error) => {
   if (error) {
     console.log("Error in starting the server" + error);
