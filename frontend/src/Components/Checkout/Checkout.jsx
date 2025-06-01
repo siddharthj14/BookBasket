@@ -179,68 +179,36 @@ const Checkout = () => {
   );
 
   if (currentStep === 1) {
-    return (
-      <div className="checkout-container">
-        <div className="checkout-wrapper">
-          <StepIndicator />
+  return (
+    <div className="checkout-container">
+      <div className="checkout-wrapper">
+        <StepIndicator />
 
-          <div className="checkout-card">
-            <h2 className="checkout-title">
-              <span className="title-icon">📍</span>
-              Shipping Information
-            </h2>
+        <div className="checkout-card">
+          <h2 className="checkout-title">
+            <span className="title-icon">📍</span>
+            Shipping Information
+          </h2>
 
-            <div className="form-container">
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">First Name *</label>
-                  <div className="input-container">
-                    <span className="input-icon">👤</span>
-                    <input
-                      type="text"
-                      className="form-input"
-                      value={shippingInfo.firstName}
-                      onChange={(e) =>
-                        setShippingInfo({
-                          ...shippingInfo,
-                          firstName: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Last Name *</label>
-                  <div className="input-container">
-                    <span className="input-icon">👤</span>
-                    <input
-                      type="text"
-                      className="form-input"
-                      value={shippingInfo.lastName}
-                      onChange={(e) =>
-                        setShippingInfo({
-                          ...shippingInfo,
-                          lastName: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-
+          <div className="form-container">
+            <div className="form-row">
               <div className="form-group">
-                <label className="form-label">Email Address *</label>
+                <label className="form-label" htmlFor="firstName">
+                  First Name *
+                </label>
                 <div className="input-container">
-                  <span className="input-icon">✉️</span>
+                  <span className="input-icon">👤</span>
                   <input
-                    type="email"
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    autoComplete="given-name"
                     className="form-input"
-                    value={shippingInfo.email}
+                    value={shippingInfo.firstName}
                     onChange={(e) =>
                       setShippingInfo({
                         ...shippingInfo,
-                        email: e.target.value,
+                        firstName: e.target.value,
                       })
                     }
                   />
@@ -248,267 +216,365 @@ const Checkout = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Phone Number *</label>
+                <label className="form-label" htmlFor="lastName">
+                  Last Name *
+                </label>
                 <div className="input-container">
-                  <span className="input-icon">📞</span>
+                  <span className="input-icon">👤</span>
                   <input
-                    type="tel"
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    autoComplete="family-name"
                     className="form-input"
-                    value={shippingInfo.phone}
+                    value={shippingInfo.lastName}
                     onChange={(e) =>
                       setShippingInfo({
                         ...shippingInfo,
-                        phone: e.target.value,
+                        lastName: e.target.value,
                       })
                     }
                   />
                 </div>
               </div>
+            </div>
 
-              <div className="form-group">
-                <label className="form-label">Address *</label>
-                <textarea
-                  rows="3"
-                  className="form-textarea"
-                  value={shippingInfo.address}
+            <div className="form-group">
+              <label className="form-label" htmlFor="email">
+                Email Address *
+              </label>
+              <div className="input-container">
+                <span className="input-icon">✉️</span>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  className="form-input"
+                  value={shippingInfo.email}
                   onChange={(e) =>
                     setShippingInfo({
                       ...shippingInfo,
-                      address: e.target.value,
+                      email: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="phone">
+                Phone Number *
+              </label>
+              <div className="input-container">
+                <span className="input-icon">📞</span>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel"
+                  className="form-input"
+                  value={shippingInfo.phone}
+                  onChange={(e) =>
+                    setShippingInfo({
+                      ...shippingInfo,
+                      phone: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="address">
+                Address *
+              </label>
+              <textarea
+                id="address"
+                name="address"
+                rows="3"
+                autoComplete="street-address"
+                className="form-textarea"
+                value={shippingInfo.address}
+                onChange={(e) =>
+                  setShippingInfo({
+                    ...shippingInfo,
+                    address: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label" htmlFor="city">
+                  City *
+                </label>
+                <input
+                  id="city"
+                  name="city"
+                  type="text"
+                  autoComplete="address-level2"
+                  className="form-input"
+                  value={shippingInfo.city}
+                  onChange={(e) =>
+                    setShippingInfo({ ...shippingInfo, city: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="state">
+                  State *
+                </label>
+                <input
+                  id="state"
+                  name="state"
+                  type="text"
+                  autoComplete="address-level1"
+                  className="form-input"
+                  value={shippingInfo.state}
+                  onChange={(e) =>
+                    setShippingInfo({
+                      ...shippingInfo,
+                      state: e.target.value,
                     })
                   }
                 />
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">City *</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={shippingInfo.city}
-                    onChange={(e) =>
-                      setShippingInfo({ ...shippingInfo, city: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">State *</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={shippingInfo.state}
-                    onChange={(e) =>
-                      setShippingInfo({
-                        ...shippingInfo,
-                        state: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">ZIP Code *</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={shippingInfo.zipCode}
-                    onChange={(e) =>
-                      setShippingInfo({
-                        ...shippingInfo,
-                        zipCode: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-
               <div className="form-group">
-                <label className="form-label">Country</label>
-                <select
-                  className="form-select"
-                  value={shippingInfo.country}
+                <label className="form-label" htmlFor="zipCode">
+                  ZIP Code *
+                </label>
+                <input
+                  id="zipCode"
+                  name="zipCode"
+                  type="text"
+                  autoComplete="postal-code"
+                  className="form-input"
+                  value={shippingInfo.zipCode}
                   onChange={(e) =>
                     setShippingInfo({
                       ...shippingInfo,
-                      country: e.target.value,
+                      zipCode: e.target.value,
                     })
                   }
-                >
-                  <option value="India">India</option>
-                  <option value="USA">United States</option>
-                  <option value="UK">United Kingdom</option>
-                  <option value="Canada">Canada</option>
-                </select>
+                />
               </div>
+            </div>
 
-              <div className="button-row">
-                <Link
-                  to="/cart"
-                  onClick={() => setCurrentStep(1)}
-                  className="btn btn-secondary btn-half"
-                >
-                  Back to Cart
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleShippingSubmit}
-                  className="btn btn-half"
-                >
-                  Continue to Payment
-                </button>
-              </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="country">
+                Country
+              </label>
+              <select
+                id="country"
+                name="country"
+                autoComplete="country-name"
+                className="form-select"
+                value={shippingInfo.country}
+                onChange={(e) =>
+                  setShippingInfo({
+                    ...shippingInfo,
+                    country: e.target.value,
+                  })
+                }
+              >
+                <option value="India">India</option>
+                <option value="USA">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="Canada">Canada</option>
+              </select>
+            </div>
+
+            <div className="button-row">
+              <Link
+                to="/cart"
+                onClick={() => setCurrentStep(1)}
+                className="btn btn-secondary btn-half"
+              >
+                Back to Cart
+              </Link>
+              <button
+                type="button"
+                onClick={handleShippingSubmit}
+                className="btn btn-half"
+              >
+                Continue to Payment
+              </button>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  if (currentStep === 2) {
-    return (
-      <div className="checkout-container">
-        <div className="checkout-wrapper">
-          <StepIndicator />
 
-          <div className="checkout-card">
-            <h2 className="checkout-title">
-              <span className="title-icon">💳</span>
-              Payment Method
-            </h2>
+ if (currentStep === 2) {
+  return (
+    <div className="checkout-container">
+      <div className="checkout-wrapper">
+        <StepIndicator />
 
-            <div className="form-container">
-              <div className="payment-methods">
-                {[
-                  { id: "visa", label: "VISA", class: "visa" },
-                  { id: "mastercard", label: "MC", class: "mastercard" },
-                  { id: "amex", label: "AMEX", class: "amex" },
-                  { id: "discover", label: "DISC", class: "discover" },
-                ].map((method) => (
-                  <label key={method.id} className="payment-method">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value={method.id}
-                      className="payment-radio"
-                      checked={paymentInfo.paymentMethod === method.id}
-                      onChange={(e) =>
-                        setPaymentInfo({
-                          ...paymentInfo,
-                          paymentMethod: e.target.value,
-                        })
-                      }
-                    />
-                    <div
-                      className={`payment-card ${method.class} ${
-                        paymentInfo.paymentMethod === method.id
-                          ? "selected"
-                          : ""
-                      }`}
-                    >
-                      {method.label}
-                    </div>
-                  </label>
-                ))}
-              </div>
+        <div className="checkout-card">
+          <h2 className="checkout-title">
+            <span className="title-icon">💳</span>
+            Payment Method
+          </h2>
 
-              <p className="payment-subtitle">Credit or Debit Card</p>
-
-              <div className="form-group">
-                <label className="form-label">Cardholder Name *</label>
-                <div className="input-container">
-                  <span className="input-icon">👤</span>
+          <div className="form-container">
+            <div className="payment-methods">
+              {[
+                { id: "visa", label: "VISA", class: "visa" },
+                { id: "mastercard", label: "MC", class: "mastercard" },
+                { id: "amex", label: "AMEX", class: "amex" },
+                { id: "discover", label: "DISC", class: "discover" },
+              ].map((method) => (
+                <label key={method.id} className="payment-method" htmlFor={method.id}>
                   <input
-                    type="text"
-                    placeholder="John Doe"
-                    className="form-input"
-                    value={paymentInfo.cardholderName}
+                    id={method.id}
+                    type="radio"
+                    name="paymentMethod"
+                    value={method.id}
+                    className="payment-radio"
+                    checked={paymentInfo.paymentMethod === method.id}
                     onChange={(e) =>
                       setPaymentInfo({
                         ...paymentInfo,
-                        cardholderName: e.target.value,
+                        paymentMethod: e.target.value,
+                      })
+                    }
+                  />
+                  <div
+                    className={`payment-card ${method.class} ${
+                      paymentInfo.paymentMethod === method.id ? "selected" : ""
+                    }`}
+                  >
+                    {method.label}
+                  </div>
+                </label>
+              ))}
+            </div>
+
+            <p className="payment-subtitle">Credit or Debit Card</p>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="cardholderName">
+                Cardholder Name *
+              </label>
+              <div className="input-container">
+                <span className="input-icon">👤</span>
+                <input
+                  id="cardholderName"
+                  name="name"
+                  type="text"
+                  autoComplete="cc-name"
+                  placeholder="John Doe"
+                  className="form-input"
+                  value={paymentInfo.cardholderName}
+                  onChange={(e) =>
+                    setPaymentInfo({
+                      ...paymentInfo,
+                      cardholderName: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="cardNumber">
+                Card Number *
+              </label>
+              <div className="input-container">
+                <span className="input-icon">💳</span>
+                <input
+                  id="cardNumber"
+                  name="cardNumber"
+                  type="text"
+                  autoComplete="cc-number"
+                  placeholder="1234 5678 9012 3456"
+                  className="form-input"
+                  value={paymentInfo.cardNumber}
+                  onChange={handleCardNumberChange}
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label" htmlFor="expiryDate">
+                  Expiry Date *
+                </label>
+                <div className="input-container">
+                  <span className="input-icon">📅</span>
+                  <input
+                    id="expiryDate"
+                    name="expiryDate"
+                    type="text"
+                    autoComplete="cc-exp"
+                    placeholder="MM/YY"
+                    maxLength="5"
+                    className="form-input"
+                    value={paymentInfo.expiryDate}
+                    onChange={handleExpiryChange}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="cvv">
+                  CVV *
+                </label>
+                <div className="input-container">
+                  <span className="input-icon">🔒</span>
+                  <input
+                    id="cvv"
+                    name="cvv"
+                    type="text"
+                    autoComplete="cc-csc"
+                    placeholder="123"
+                    maxLength="4"
+                    className="form-input"
+                    value={paymentInfo.cvv}
+                    onChange={(e) =>
+                      setPaymentInfo({
+                        ...paymentInfo,
+                        cvv: e.target.value.replace(/\D/g, ""),
                       })
                     }
                   />
                 </div>
               </div>
+            </div>
 
-              <div className="form-group">
-                <label className="form-label">Card Number *</label>
-                <div className="input-container">
-                  <span className="input-icon">💳</span>
-                  <input
-                    type="text"
-                    placeholder="1234 5678 9012 3456"
-                    className="form-input"
-                    value={paymentInfo.cardNumber}
-                    onChange={handleCardNumberChange}
-                  />
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Expiry Date *</label>
-                  <div className="input-container">
-                    <span className="input-icon">📅</span>
-                    <input
-                      type="text"
-                      placeholder="MM/YY"
-                      maxLength="5"
-                      className="form-input"
-                      value={paymentInfo.expiryDate}
-                      onChange={handleExpiryChange}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">CVV *</label>
-                  <div className="input-container">
-                    <span className="input-icon">🔒</span>
-                    <input
-                      type="text"
-                      placeholder="123"
-                      maxLength="4"
-                      className="form-input"
-                      value={paymentInfo.cvv}
-                      onChange={(e) =>
-                        setPaymentInfo({
-                          ...paymentInfo,
-                          cvv: e.target.value.replace(/\D/g, ""),
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="button-row">
-                <button
-                  type="button"
-                  onClick={() => setCurrentStep(1)}
-                  className="btn btn-secondary btn-half"
-                  disabled={isProcessingOrder}
-                >
-                  Back to Shipping
-                </button>
-                <button
-                  type="button"
-                  onClick={handlePaymentSubmit}
-                  className="btn btn-half"
-                  disabled={isProcessingOrder}
-                >
-                  {isProcessingOrder ? "Processing..." : "Complete Order"}
-                </button>
-              </div>
+            <div className="button-row">
+              <button
+                type="button"
+                onClick={() => setCurrentStep(1)}
+                className="btn btn-secondary btn-half"
+                disabled={isProcessingOrder}
+              >
+                Back to Shipping
+              </button>
+              <button
+                type="button"
+                onClick={handlePaymentSubmit}
+                className="btn btn-half"
+                disabled={isProcessingOrder}
+              >
+                {isProcessingOrder ? "Processing..." : "Complete Order"}
+              </button>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   if (currentStep === 3) {
     return (
