@@ -11,7 +11,6 @@
   justify-content: center;
   gap: 20px;
   padding-left: 180px;
-  line-height: 1.1;
 }
 
 .hero-left h2 {
@@ -24,6 +23,7 @@
   color: #171717;
   font-size: 50px;
   font-weight: 700;
+  line-height: 1.1;
 }
 
 .hero-hand-icon {
