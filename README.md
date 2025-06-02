@@ -1,4 +1,4 @@
-# 📚 BookBasket – Full-Stack eCommerce Web App for Books
+# 📚 BookBasket – Full-Stack eCommerce Web App
 
 BookBasket is a modern, full-stack eCommerce application built for seamless book browsing, shopping, and management. It supports categorized product listings, a dynamic cart system, secure authentication, and an admin panel for product control.
 
