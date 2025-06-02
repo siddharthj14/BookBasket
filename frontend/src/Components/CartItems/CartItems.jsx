@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import "./CartItems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -102,16 +102,22 @@ const CartItems = () => {
               <h3>₹{Math.round(getTotalCartAmount() * (1 - discount))}</h3>
             </div>
           </div>
+          {localStorage.getItem("auth-token") == null && (
+            <p className="empty-cart-message">Please login to continue.</p>
+          )}
           <Link
-            to={getTotalCartAmount() > 0 ? "/checkout" : "#"}
+            to={
+              getTotalCartAmount() === 0 ||
+              localStorage.getItem("auth-token") == null
+                ? "#"
+                : "/checkout"
+            }
             className={`btn ${
-              getTotalCartAmount() === 0 ? "btn-disabled" : ""
+              getTotalCartAmount() === 0 ||
+              localStorage.getItem("auth-token") == null
+                ? "btn-disabled"
+                : ""
             }`}
-            onClick={(e) => {
-              if (getTotalCartAmount() === 0) {
-                e.preventDefault();
-              }
-            }}
           >
             Proceed to Checkout
           </Link>
