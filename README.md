@@ -6,10 +6,10 @@ BookBasket is a modern, full-stack eCommerce application built for seamless book
 
 ## 🖥️ Live Demo
 
-🌐 **Frontend**: https://bookbasket1.vercel.app/
-🌐 **Admin Panel**: Not deployed for security reasons
-🔗 **Backend**: https://bookbasket-atug.onrender.com
-🗃 **Database**: MongoDB Atlas
+* 🌐 **Frontend**: https://bookbasket1.vercel.app/
+* 🌐 **Admin Panel**: Not deployed for security reasons
+* 🔗 **Backend**: https://bookbasket-atug.onrender.com
+* 🗃 **Database**: MongoDB Atlas
 
 ---
 
