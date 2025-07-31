@@ -49,9 +49,9 @@ const Footer = () => {
         <hr />
         <p>Copyright © {currentYear} - All Rights Reserved.</p>
         <p>
-          ~Made with ❤️ by{" "}
+          ~Made with ❤️ by {" "}
           <a
-            href="https://github.com/siddharthj1405"
+            href="https://github.com/siddharthj14"
             target="_blank"
             rel="noopener noreferrer"
             title="Visit my GitHub"
