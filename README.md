@@ -1,4 +1,4 @@
-# 📚 BookBasket – Full-Stack eCommerce Web App for Books
+# 📚 BookBasket – Full-Stack eCommerce Web App
 
 BookBasket is a modern, full-stack eCommerce application built for seamless book browsing, shopping, and management. It supports categorized product listings, a dynamic cart system, secure authentication, and an admin panel for product control.
 
@@ -6,10 +6,10 @@ BookBasket is a modern, full-stack eCommerce application built for seamless book
 
 ## 🖥️ Live Demo
 
-🌐 **Frontend**: https://bookbasket1.vercel.app/
-🌐 **Admin Panel**: Not deployed for security reasons
-🔗 **Backend**: https://bookbasket-atug.onrender.com
-🗃 **Database**: MongoDB Atlas
+* 🌐 **Frontend**: https://bookbasket1.vercel.app/
+* 🌐 **Admin Panel**: Not deployed for security reasons
+* 🔗 **Backend**: https://bookbasket-atug.onrender.com
+* 🗃 **Database**: MongoDB Atlas
 
 ---
 
